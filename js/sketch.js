@@ -59,7 +59,7 @@ function classifyVideo() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, 768);
   video = createCapture(VIDEO);
   video.hide();
   time = millis();
