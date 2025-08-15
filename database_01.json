@@ -30,7 +30,7 @@
     "credibility_qrcode": ""
   },
   {
-    "sr_no": 4,
+    "sr_no": 2,
     "brand": "TheBodyShop",
     "product": "Vitamin E",
     "uploaded_in_ml": "TRUE",
@@ -57,10 +57,10 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_the_body_shop.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/the_body_shop_qr.png"
   },
   {
-    "sr_no": 2,
+    "sr_no": 3,
     "brand": "Minimalist",
     "product": "Sunscreen SPF50",
     "uploaded_in_ml": "TRUE",
@@ -87,10 +87,10 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_minimalist_sunscreen.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/minimalist_spf50_sunscreen.png"
   },
   {
-    "sr_no": 3,
+    "sr_no": 4,
     "brand": "Brinton",
     "product": "UV Doux - Silicone Sunscreen gel SPF 50",
     "uploaded_in_ml": "TRUE",
@@ -117,7 +117,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_brinton.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/brinton_sunscreen.png"
   },
   {
     "sr_no": 5,
@@ -147,7 +147,7 @@
     "htu_03_img": "database_prod_01/htu_img/htu_cosrx_img_03.png",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_cosrx.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/cosrx_snail_mucin.png"
   },
   {
     "sr_no": 6,
@@ -177,7 +177,7 @@
     "htu_03_img": "database_prod_01/htu_img/htu_m_caffeine_toner_img_03.png",
     "htu_04_img": "",
     "credibility_img": "database_prod_01/cred_img/cred_m_caffeine_toner.jpeg",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/m_caffeine_toner.png"
   },
   {
     "sr_no": 7,
@@ -207,7 +207,7 @@
     "htu_03_img": "",
     "htu_04_img": "-",
     "credibility_img": "./img/credibility_img/cred_minimalist_serum.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/minimalist_serum.png"
   },
   {
     "sr_no": 8,
@@ -237,7 +237,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_m_caffeine_kojic.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/m_caffeine_kojic.png"
   },
   {
     "sr_no": 9,
@@ -267,7 +267,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_ponds_spf55.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/ponds_sunscreen.png"
   },
   {
     "sr_no": 10,
@@ -297,7 +297,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_m_caffeine_moisturizer.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/m_caffeine_moisturizer.png"
   },
   {
     "sr_no": 11,
@@ -327,7 +327,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_cetaphil.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/cetaphil.png"
   },
   {
     "sr_no": 12,
@@ -357,7 +357,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_neutrogena.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/neutrogena.png"
   },
   {
     "sr_no": 13,
@@ -387,7 +387,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_loreal_serum.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/loreal_serum.png"
   },
   {
     "sr_no": 14,
@@ -417,7 +417,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_m_caffeine_aging.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/m_caffeine_anti_ageing.png"
   },
   {
     "sr_no": 15,
@@ -447,7 +447,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_dr_sheths.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/dr_sheths.png"
   },
   {
     "sr_no": 17,
@@ -477,7 +477,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_plum.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/plum.png"
   },
   {
     "sr_no": 18,
@@ -507,7 +507,7 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_dot_key.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/dot_key.png"
   },
   {
     "sr_no": 19,
@@ -537,6 +537,6 @@
     "htu_03_img": "",
     "htu_04_img": "",
     "credibility_img": "./img/credibility_img/cred_loreal_cream.png",
-    "credibility_qrcode": ""
+    "credibility_qrcode": "./img/qrcodes/loreal_cream.png"
   }
 ]
