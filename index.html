@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>p5.js example</title>
+  <script src="./js/p5.min.js"></script>
+  <script src="./js/p5.sound.min.js"></script>
+  <script src="./js/ml5.min.js"></script>
+  <script src="./js/gsap.min.js" defer></script>
+  <script src="./js/sketch.js"></script>
+</head>
+
+<body>
+  <main>
+    <div id="page-0" class="full-screen">
+      <img src="./img/welcome.png" alt="" class="welcome-bg">
+    </div>
+    <div class="products">
+      <div id="page-status" class="page-status hide"></div>
+      <section id="page-01" class="product-details hide">
+        <div class="navbar flex">
+          <div class="logo"><img id="brand_logo" src="" alt="brand_logo">
+          </div>
+          <div class="prod-name">
+            <h2 id="prod-name"></h2>
+          </div>
+        </div>
+        <div class="prod-content flex">
+          <div class="prod_img">
+            <img id="prod-img" src="" alt="Product Image">
+          </div>
+          <div class="prod_desc">
+            <div class="skin-type">
+              <h2 id="skin-type"></h2>
+            </div>
+            <div class="benefits">
+              <h3 id="main-benefit" class="main-benefit"></h3>
+              <h2 class="treatment-for"><span id="treatment-for"></span></h2>
+            </div>
+            <hr class="line">
+            <div class="other-benefits">
+              <ul>
+                <li class="benefit">
+                  <img src="./img/tick.png" alt="" class="icon">
+                  <p id="other_benefit_01"></p>
+                </li>
+                <li class="benefit">
+                  <img src="./img/tick.png" alt="" class="icon">
+                  <p id="other_benefit_02"></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="page-02" class="steps-in-routine hide">
+        <div class="navbar">
+          <h2 class="heading">When to Use in Your Routine</h2>
+        </div>
+        <div class="steps">
+          <ul>
+            <li class="step">
+              <img src="./img/routine_step_1.png" alt="face wash" class="step-img">
+              <div class="step-details">
+                <h4 class="step-heading">Step 1</h4>
+                <p class="step-details">Cleansing</p>
+              </div>
+            </li>
+            <li class="step ">
+              <img src="./img/routine_step_2.png" alt="face toner" class="step-img">
+              <div class="step-details">
+                <h4 class="step-heading">Step 2</h4>
+                <p class="step-details">Treatment</p>
+              </div>
+            </li>
+            <li class="step current-step">
+              <img src="./img/routine_step_3.png" alt="face moisturizer" class="step-img">
+              <div class="step-details">
+                <h4 class="step-heading">Step 3</h4>
+                <p class="step-details">Moisturization</p>
+              </div>
+            </li>
+            <li class="step">
+              <img src="./img/routine_step_4.png" alt="sunscreen" class="step-img">
+              <div class="step-details">
+                <h4 class="step-heading">Step 4</h4>
+                <p class="step-details">Sun Protection</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section id="page-03" class="how-to-use hide">
+        <div class="navbar">
+          <h2 class="instructions-heading heading">How to Use</h2>
+        </div>
+        <div class="instructions-body">
+          <ul>
+            <li class="instruction">
+              <img src="./img/htu_img/derma_co__inst__img_01.png" alt="how to use" class="instruction-img">
+              <p class="instruction-text"></p>
+            </li>
+            <li class="instruction">
+              <img src="./img/htu_img/derma_co__inst__img_02.png" alt="how to use" class="instruction-img">
+              <p class="instruction-text"></p>
+            </li>
+            <li class="instruction">
+              <img src="./img/htu_img/derma_co__inst__img_03.png" alt="how to use" class="instruction-img">
+              <p class="instruction-text"></p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section id="page-04" class="crediblity hide">
+        <div class="navbar">
+          <h2 class="heading">Credibility Report</h2>
+        </div>
+        <div class="credibility">
+          <img id="credibility-img" src="" alt="Credibility" class="credibility-img">
+          <div class="line"></div>
+          <div class="qr-code">
+            <p class="qr-code-heading">Scan to read full report</p>
+            <img src="./img/qrcodes/derma_co_qr.png" alt="" class="credibility-qr-img">
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+<script>
+  function updateHTML(n) {
+    document.documentElement.style.setProperty('--brand-primary-color', database[n].brand_colour || '#96349B');
+
+    document.querySelector('#brand_logo').src = (database[n].logo_img);
+    document.querySelector('#prod-name').innerHTML = (database[n].product);
+    document.querySelector('#prod-img').src = (database[n].prod_img);
+    document.querySelector('#skin-type').innerHTML = (database[n].skin_type);
+    document.querySelector('#main-benefit').innerHTML = (database[n].main_benefit);
+    document.querySelector('#treatment-for').innerHTML = (database[n].treatment_for);
+    document.querySelector('#other_benefit_01').innerHTML = (database[n].other_benefit_01);
+    document.querySelector('#other_benefit_02').innerHTML = (database[n].other_benefit_02);
+
+    let steps = document.querySelectorAll('.step')
+    for (let i = 0; i < 4; i++) {
+      steps[i].classList.remove('current-step');
+    }
+    steps[(database[n].step_in_routine) - 1].classList.add('current-step');
+
+    let instructions = document.querySelectorAll('.instruction-text');
+    instructions[0].innerHTML = database[n].how_to_use_01;
+    instructions[1].innerHTML = database[n].how_to_use_02;
+    instructions[2].innerHTML = database[n].how_to_use_03;
+
+    document.querySelector('#credibility-img').src = (database[n].credibility_img);
+  }
+</script>
+
+</html>

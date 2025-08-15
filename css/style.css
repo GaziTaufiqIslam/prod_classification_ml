@@ -1,0 +1,350 @@
+:root {
+    --brand-primary-color: #96349B;
+    /* Default purple color */
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+canvas {
+    display: block;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+* {
+    font-family: 'IBM Plex Sans', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+ul {
+    margin: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+h1 {
+    text-align: center;
+    font-style: 'SF Pro', 'Helvetica', sans-serif;
+    padding: 1 em;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.products {
+    background-color: white;
+}
+
+.products section {
+    margin-top: 4em;
+}
+
+.navbar {
+    margin: 0 auto;
+    max-width: 960px;
+    width: 90%;
+}
+
+.navbar>* {
+    flex: 50%;
+}
+
+.logo img {
+    height: 120px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    margin-right: 1em;
+}
+
+.full-screen {
+    height: 100vh;
+}
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--brand-primary-color);
+}
+
+.detecting-p {
+    display: flex;
+    height: 100vh;
+    width: 100vh;
+}
+
+.page-0 {
+    width: 100%;
+    height: 100vh;
+}
+
+.welcome-bg {
+    height: 100%;
+}
+
+/* page status bar */
+.page-status {
+    position: absolute;
+    background-color: var(--brand-primary-color);
+    height: 1vh;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
+}
+
+/* Page 01 */
+.hide {
+    display: none;
+}
+
+.prod_img {
+    display: flex;
+    justify-content: center;
+    margin-right: 1em;
+}
+
+.prod-name h2 {
+    color: #69636B;
+    font-size: 2em;
+    font-weight: 500;
+    margin-left: 25px;
+}
+
+.prod-content {
+    margin: 0 auto;
+    max-width: 960px;
+    width: 90%;
+}
+
+.prod-content>* {
+    flex: 1;
+}
+
+.prod_desc {
+    margin-left: 50px;
+}
+
+.skin-type {
+    display: inline-block;
+    padding: 1em 1.5em;
+    border-radius: 16px;
+    background-color: var(--brand-primary-color);
+    opacity: 0.8;
+    margin-bottom: 3em;
+}
+
+.skin-type h2 {
+    display: inline;
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+}
+
+.prod-content .main-benefit {
+    color: var(--brand-primary-color);
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.prod-content .treatment-for {
+    color: #69636B;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.line {
+    margin: 2.5em 0 2em;
+}
+
+.prod-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.prod-content ul li {
+    display: flex;
+    justify-content: left;
+    margin: 1.5em 0;
+}
+
+.prod-content ul li p {
+    padding-left: 32px;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.prod-content li .icon {
+    width: 40px;
+    height: 40px;
+    align-self: center;
+}
+
+/* page-02 */
+.steps-in-routine {
+    height: calc(100vh - 64px);
+    background-image: url("./../img/sir-bg/sir-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    position: relative;
+    z-index: 1;
+}
+
+.steps {
+    margin: 0 auto;
+    max-width: 960px;
+    width: 90%;
+    padding-top: 2em;
+    position: relative;
+    z-index: 1;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 1em;
+    margin-top: 3em;
+}
+
+.step-heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.step-details {
+    color: #69636B;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.step-img {
+    border-radius: 100%;
+}
+
+.current-step {
+    position: relative;
+    z-index: 1;
+}
+
+.current-step .step-details {
+    color: white;
+}
+
+.current-step:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: calc(50% - 60px);
+    left: -1em;
+    width: 500px;
+    height: 120px;
+    background: linear-gradient(to right, var(--brand-primary-color), transparent 90%);
+    border-radius: 4.5em;
+    z-index: -1;
+}
+
+/* Page - 03 */
+.instructions-body {
+    margin: 2em auto 0;
+    max-width: 960px;
+    width: 90%;
+}
+
+.instructions-body ul {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 2em;
+}
+
+.instruction {
+    flex: 1;
+    padding: 6em 2em;
+    border: var(--brand-primary-color) 4px solid;
+    border-radius: 1em;
+    position: relative;
+}
+
+.instruction:after {
+    content: "";
+    position: absolute;
+    right: -32px;
+    top: 50%;
+    border: transparent solid 16px;
+    border-left-color: var(--brand-primary-color);
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.instruction:last-child::after {
+    border: none;
+}
+
+.instruction .instruction-img {
+    height: 180px;
+    display: flex;
+    justify-self: center;
+    margin-bottom: 2em;
+    border-radius: 12px;
+}
+
+.instruction .instruction-text {
+    color: var(--brand-primary-color);
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* page 04 */
+.credibility {
+    margin: 3em auto;
+    width: 90%;
+    max-width: 960px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.line {
+    position: relative;
+}
+
+.line:before {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 500px;
+    top: calc(50% - 250px);
+    border: #69636B 1px solid;
+    width: 0;
+}
+
+.qr-code {
+    margin: auto;
+    color: var(--brand-primary-color);
+    font-size: 32px;
+    font-weight: 600;
+    max-width: 222px;
+    text-align: center;
+}
