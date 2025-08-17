@@ -167,7 +167,9 @@ function updateUI(label) {
   // Check if a new product has been detected AND it's not the "Welcome!" state.
   if (label !== appState.lastDetectedProduct) {
     if (productHandlers[label] !== "reset") {
-      appState.audio.detected.play();
+      // Play the loading audio when a new product is first detected
+      appState.audio.loading.play();
+      
       // Set the flag and reset the timer when a new product is first detected
       appState.isNewProductDetected = true;
       appState.lastPageDisplayTime = millis();
@@ -222,6 +224,11 @@ function showProductInfo(productIndex) {
     const currentPage = appState.htmlElements.productPages[appState.currentPageIndex];
     if (currentPage) {
       currentPage.removeClass('hide');
+    }
+
+     // Play the audio only when the first page of a new product is displayed
+    if (appState.isNewProductDetected) {
+      appState.audio.detected.play();
     }
     
     // Animate the status bar to show progress
