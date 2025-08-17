@@ -371,3 +371,11 @@ h1 {
     max-width: 222px;
     text-align: center;
 }
+
+.qr-code .qr-code-heading {
+    padding-bottom: 1em;
+}
+.qr-code .credibility-qr-img {
+    width: 200px;
+
+}

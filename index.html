@@ -123,7 +123,7 @@
           <div class="line"></div>
           <div class="qr-code">
             <p class="qr-code-heading">Scan to read full report</p>
-            <img src="./img/qrcodes/derma_co_qr.png" alt="" class="credibility-qr-img">
+            <img src="" alt="" class="credibility-qr-img">
           </div>
         </div>
       </section>
@@ -161,6 +161,8 @@
     instructionImages[2].src = database[n].htu_03_img;
 
     document.querySelector('#credibility-img').src = (database[n].credibility_img);
+    document.querySelector('.credibility-qr-img').src = (database[n].credibility_qrcode);
+
   }
 </script>
 
