@@ -15,8 +15,10 @@ const config = {
     correct: "./../audio/correct.mp3",
     loading: "./../audio/rising-choir.mp3"
   },
-  classificationDelay: 2000, // Time in milliseconds between each classification
-  pageDisplayDelay: 8000 // Time in milliseconds each product info page is shown
+  classificationDelay: 250, // Time in milliseconds between each classification
+  pageDisplayDelay: 8000, // Time in milliseconds each product info page is shown
+  initialPageDelay: 2000 // New: 2-second delay before the first page of the slideshow
+
 };
 
 /**
@@ -39,6 +41,8 @@ const appState = {
   lastClassificationTime: 0,
   lastPageDisplayTime: 0,
   currentDetectedProduct: 'Welcome!', // The label of the currently detected product
+  lastDetectedProduct: 'Welcome!', // Tracks the previous detection to prevent audio from playing constantly
+  isNewProductDetected: false, // New: Flag to trigger the initial delay
   currentPageIndex: 0, // Index for the product info page slideshow
 };
 
@@ -160,6 +164,19 @@ function classifyVideo() {
  * @param {string} label - The label of the product returned by the classifier.
  */
 function updateUI(label) {
+  // Check if a new product has been detected AND it's not the "Welcome!" state.
+  if (label !== appState.lastDetectedProduct) {
+    if (productHandlers[label] !== "reset") {
+      appState.audio.detected.play();
+      // Set the flag and reset the timer when a new product is first detected
+      appState.isNewProductDetected = true;
+      appState.lastPageDisplayTime = millis();
+    } else {
+      // If we are returning to the "Welcome!" state
+      appState.isNewProductDetected = false;
+    }
+  }
+
   // Check if the label exists in our lookup table
   if (productHandlers.hasOwnProperty(label)) {
     const handlerValue = productHandlers[label];
@@ -172,6 +189,9 @@ function updateUI(label) {
     // If the label is not found, reset the UI
     resetToWelcomeScreen();
   }
+
+  // Update the last detected product label for the next frame
+  appState.lastDetectedProduct = label;
 }
 
 /**
@@ -185,29 +205,34 @@ function showProductInfo(productIndex) {
   // Hide the welcome screen
   appState.htmlElements.welcomePage.addClass('hide');
 
-  // Shows the status bar instantly
-  appState.htmlElements.statusBar.removeClass('hide');
+
+
+  // Determine which delay to use: the initial delay for the first page, or the regular delay for subsequent pages
+  let currentDelay = appState.isNewProductDetected ? config.initialPageDelay : config.pageDisplayDelay;
 
   // Logic to cycle through product pages with a delay
-  if (millis() - appState.lastPageDisplayTime >= config.pageDisplayDelay) {
+  if (millis() - appState.lastPageDisplayTime >= currentDelay) {
     // Hide all product pages first
     appState.htmlElements.productPages.forEach(page => page.addClass('hide'));
+
+    // Shows the status bar 
+    appState.htmlElements.statusBar.removeClass('hide');
     
     // Show the next page in the slideshow
     const currentPage = appState.htmlElements.productPages[appState.currentPageIndex];
     if (currentPage) {
       currentPage.removeClass('hide');
     }
-
-    // Show the status bar
-    // appState.htmlElements.statusBar.removeClass('hide');
-    // appState.htmlElements.statusBar.addClass('animate-status');
     
     // Animate the status bar to show progress
-    gsap.fromTo('#page-status', 
+    // CORRECTED LINE: Use .elt to get the native DOM element for GSAP
+    gsap.fromTo(appState.htmlElements.statusBar.elt, 
       { width: 0 }, 
       { width: '100%', duration: (config.pageDisplayDelay / 1000), ease: 'none' }
     );
+
+    // After the first page is shown, all subsequent page displays should use the longer delay
+    appState.isNewProductDetected = false; 
 
     // Increment the page index for the next cycle
     appState.currentPageIndex = (appState.currentPageIndex + 1) % appState.htmlElements.productPages.length;
