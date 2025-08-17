@@ -117,7 +117,7 @@ h1 {
     position: absolute;
     background-color: crimson;
     height: 3vh;
-    width: 100%;
+    width: 0;
     bottom: 0;
     z-index: 1000;
 }

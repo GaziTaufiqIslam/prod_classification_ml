@@ -122,7 +122,8 @@ function draw() {
   textSize(32);
   fill("black");
   textAlign(CENTER);
-  text('Detecting Product . .', width / 2, height / 2);
+  text('Product Detected.', width / 2, (height / 2) - 20);
+  text('Loading information . .', width / 2, (height / 2) + 20);
 
   // Update the UI based on the classification result
   updateUI(appState.currentDetectedProduct);
@@ -132,25 +133,26 @@ function draw() {
  * Starts the image classification process using ml5.js.
  */
 function classifyVideo() {
-  if (appState.classifier && appState.video) {
-    appState.classifier.classify(appState.video, (results, err) => {
-      if (err) {
-        console.error("Classification error:", err);
+    if (!appState.classifier) return;
+
+    // This check ensures the video stream is fully loaded before classifying
+    if (!appState.video || appState.video.elt.readyState < 4) {
+        console.warn("Video stream not ready for classification.");
         return;
-      }
-      // Update the state with the new classification result
-      appState.currentDetectedProduct = results[0].label;
-      console.log(`Detected: ${appState.currentDetectedProduct}, Confidence: ${results[0].confidence}`);
+    }
+
+    appState.classifier.classify(appState.video, (results, err) => {
+        if (err) {
+            console.error("Classification error:", err);
+            return;
+        }
+        if (results && results.length > 0) {
+            appState.currentDetectedProduct = results[0].label;
+            console.log(`Detected: ${appState.currentDetectedProduct}, Confidence: ${results[0].confidence}`);
+        }
     });
-  }
 }
 
-// function classifyVideo() {
-//   appState.classifier.classify(appState.video, (results, err) => {
-//     console.log(results[0].label);
-//     appState.currentDetectedProduct = results[0].label;
-//   });
-// }
 
 /**
  * Updates the UI based on the detected product label.
@@ -182,7 +184,9 @@ function showProductInfo(productIndex) {
   
   // Hide the welcome screen
   appState.htmlElements.welcomePage.addClass('hide');
-  // appState.htmlElements.statusBar.removeClass('hide');
+
+  // Shows the status bar instantly
+  appState.htmlElements.statusBar.removeClass('hide');
 
   // Logic to cycle through product pages with a delay
   if (millis() - appState.lastPageDisplayTime >= config.pageDisplayDelay) {
@@ -196,7 +200,7 @@ function showProductInfo(productIndex) {
     }
 
     // Show the status bar
-    appState.htmlElements.statusBar.removeClass('hide');
+    // appState.htmlElements.statusBar.removeClass('hide');
     // appState.htmlElements.statusBar.addClass('animate-status');
     
     // Animate the status bar to show progress
