@@ -1,190 +1,227 @@
-let classifier;
-let video;
-let resultLabel;
-let confidence;
+/**
+ * All application-related variables and functions are encapsulated within this object
+ * to prevent polluting the global namespace.
+ */
+const app = {};
 
-let database;
+/**
+ * Configuration and constants for the application.
+ * Using a config object makes it easy to change settings in one place.
+ */
+const config = {
+  modelURL: "https://teachablemachine.withgoogle.com/models/Dbvw0N8-h/",
+  databasePath: "./../database_01.json",
+  audio: {
+    correct: "./../audio/correct.mp3",
+    loading: "./../audio/rising-choir.mp3"
+  },
+  classificationDelay: 2000, // Time in milliseconds between each classification
+  pageDisplayDelay: 8000 // Time in milliseconds each product info page is shown
+};
 
-let img;
+/**
+ * State management for the application.
+ * This object holds all dynamic data and references to DOM elements.
+ */
+const appState = {
+  classifier: null,
+  video: null,
+  database: null,
+  audio: {
+    detected: null,
+    loading: null
+  },
+  htmlElements: {
+    welcomePage: null,
+    productPages: [],
+    statusBar: null
+  },
+  lastClassificationTime: 0,
+  lastPageDisplayTime: 0,
+  currentDetectedProduct: 'Welcome!', // The label of the currently detected product
+  currentPageIndex: 0, // Index for the product info page slideshow
+};
 
-let detected;
-let loading;
+/**
+ * A lookup table to map detected product labels to their corresponding data index.
+ * This replaces the long and repetitive switch statement, making the code cleaner.
+ */
+const productHandlers = {
+  "dermaCo": 0,
+  "TheBodyShop": 1,
+  "Minimalist": 2,
+  "Brinton": 3,
+  "COSRX": 4,
+  "mCaffine_Toner": 5,
+  "Minimalist_Niacinamide": 6,
+  "mCaffine_Kojic": 7,
+  "Pond's": 8,
+  "mCaffine_Moisturizer": 9,
+  "Cetaphil": 10,
+  "Neutrogena": 11,
+  "Loreal_serum": 12,
+  "mCaffine_aging": 13,
+  "Dr_Sheths": 14,
+  "Plum": 15,
+  "Dot_Key": 16,
+  "Loreal_cream": 17,
+  "Welcome!": "reset"
+};
 
-let time;
-let loadingTime;
-let delay = 2000;
-let pageShowingDelay = 8000;
-
-let isProductDetected = false;
-
-// p5 objets
-let page_0;
-let page_01;
-let page_02;
-let page_03;
-let page_04;
-let bar;
-let pages = [];
-let slideIndex = 0;
-
+/**
+ * P5.js Preload function.
+ * This is where all assets (ML model, JSON, sounds, etc.) are loaded before setup runs.
+ */
 function preload() {
-  classifier = ml5.imageClassifier(
-    "https://teachablemachine.withgoogle.com/models/Dbvw0N8-h/"
-  );
-  database = loadJSON("database_01.json");
-  detected = loadSound("./../audio/correct.mp3");
-  loading = loadSound("./../audio/rising-choir.mp3");
+  appState.classifier = ml5.imageClassifier(config.modelURL);
+  appState.database = loadJSON(config.databasePath);
+  appState.audio.detected = loadSound(config.audio.correct);
+  appState.audio.loading = loadSound(config.audio.loading);
 
-  page_0 = select('#page-0');
-  page_01 = select('#page-01');
-  page_02 = select('#page-02');
-  page_03 = select('#page-03');
-  page_04 = select('#page-04');
-  bar = select('#page-status');
-
-  pages[0] = (page_01);
-  pages[1] = (page_02);
-  pages[2] = (page_03);
-  pages[3] = (page_04);
+  // Select all the necessary HTML elements from the DOM
+  appState.htmlElements.welcomePage = select('#page-0');
+  appState.htmlElements.statusBar = select('#page-status');
+  appState.htmlElements.productPages = [
+    select('#page-01'),
+    select('#page-02'),
+    select('#page-03'),
+    select('#page-04')
+  ];
 }
 
-function getResults(result) {
-  resultLabel = result[0].label;
-  confidence = result[0].confidence;
-  console.log(resultLabel, confidence);
-}
-
-function classifyVideo() {
-  classifier.classify(video, getResults);
-}
-
+/**
+ * P5.js Setup function.
+ * This runs once at the beginning to initialize the canvas and video stream.
+ */
 function setup() {
   createCanvas(windowWidth, 768);
-  video = createCapture(VIDEO);
-  video.hide();
-  time = millis();
-  loadingTime = millis();
+  appState.video = createCapture(VIDEO);
+  appState.video.hide();
+  appState.lastClassificationTime = millis();
+  appState.lastPageDisplayTime = millis();
 }
 
+/**
+ * P5.js Draw function.
+ * This runs on every frame and serves as the main application loop.
+ */
 function draw() {
-  background("coral");
-  image(video, 0, 0, width, height);
+  // Draw the video feed as the background
+  image(appState.video, 0, 0, width, height);
 
-  if (millis() - time >= delay) {
+  // Classify the video feed at regular intervals
+  if (millis() - appState.lastClassificationTime >= config.classificationDelay) {
     classifyVideo();
-    time = millis();
+    appState.lastClassificationTime = millis();
   }
 
+  // Display the status text
   fill("white");
   rectMode(CENTER);
   rect(width / 2, height / 2, width, height);
   textSize(32);
   fill("black");
-
-  switchCase(resultLabel);
-}
-
-function prodDetected(x) {
-  updateHTML(x);
-  page_0.addClass('hide');
   textAlign(CENTER);
-  text('Detecting Product . .', width / 2, height / 2)
+  text('Detecting Product . .', width / 2, height / 2);
 
-  if (millis() - loadingTime >= pageShowingDelay) {
-    for (let i = 0; i < pages.length; i++) {
-      pages[i].addClass('hide');
-    }
-    bar.removeClass('hide');
-    bar.addClass('animate-status');
-    pages[slideIndex].toggleClass('hide');
-    slideIndex++;
-    if (slideIndex >= pages.length) {
-      slideIndex = 0;
-    }
-    gsap.fromTo('.animate-status', { width: 0 }, { width: '100%', duration: 8, ease: 'none' });
-    loadingTime = millis();
-  }
+  // Update the UI based on the classification result
+  updateUI(appState.currentDetectedProduct);
+}
 
-  if (isProductDetected) {
-    console.log('Product Detected');
-    isProductDetected = false;
+/**
+ * Starts the image classification process using ml5.js.
+ */
+function classifyVideo() {
+  if (appState.classifier && appState.video) {
+    appState.classifier.classify(appState.video, (results, err) => {
+      if (err) {
+        console.error("Classification error:", err);
+        return;
+      }
+      // Update the state with the new classification result
+      appState.currentDetectedProduct = results[0].label;
+      console.log(`Detected: ${appState.currentDetectedProduct}, Confidence: ${results[0].confidence}`);
+    });
   }
 }
 
-function resetToWelcome() {
-  isProductDetected = false;
-  page_0.removeClass('hide');
-  bar.addClass('hide');
-  slideIndex = 0;
-  for (let i = 0; i < pages.length; i++) {
-    pages[i].addClass('hide');
+// function classifyVideo() {
+//   appState.classifier.classify(appState.video, (results, err) => {
+//     console.log(results[0].label);
+//     appState.currentDetectedProduct = results[0].label;
+//   });
+// }
+
+/**
+ * Updates the UI based on the detected product label.
+ * This function handles showing product pages or resetting to the welcome screen.
+ * @param {string} label - The label of the product returned by the classifier.
+ */
+function updateUI(label) {
+  // Check if the label exists in our lookup table
+  if (productHandlers.hasOwnProperty(label)) {
+    const handlerValue = productHandlers[label];
+    if (handlerValue === "reset") {
+      resetToWelcomeScreen();
+    } else {
+      showProductInfo(handlerValue);
+    }
+  } else {
+    // If the label is not found, reset the UI
+    resetToWelcomeScreen();
   }
-  // THIS NEW LINE RESETS THE COLOR
+}
+
+/**
+ * Handles the display of product information pages.
+ * @param {number} productIndex - The index for the product data in the database.
+ */
+function showProductInfo(productIndex) {
+  // Calls a function in the main HTML file to update the content
+  window.updateHTML(productIndex); 
+  
+  // Hide the welcome screen
+  appState.htmlElements.welcomePage.addClass('hide');
+  // appState.htmlElements.statusBar.removeClass('hide');
+
+  // Logic to cycle through product pages with a delay
+  if (millis() - appState.lastPageDisplayTime >= config.pageDisplayDelay) {
+    // Hide all product pages first
+    appState.htmlElements.productPages.forEach(page => page.addClass('hide'));
+    
+    // Show the next page in the slideshow
+    const currentPage = appState.htmlElements.productPages[appState.currentPageIndex];
+    if (currentPage) {
+      currentPage.removeClass('hide');
+    }
+
+    // Show the status bar
+    appState.htmlElements.statusBar.removeClass('hide');
+    // appState.htmlElements.statusBar.addClass('animate-status');
+    
+    // Animate the status bar to show progress
+    gsap.fromTo('#page-status', 
+      { width: 0 }, 
+      { width: '100%', duration: (config.pageDisplayDelay / 1000), ease: 'none' }
+    );
+
+    // Increment the page index for the next cycle
+    appState.currentPageIndex = (appState.currentPageIndex + 1) % appState.htmlElements.productPages.length;
+    appState.lastPageDisplayTime = millis();
+  }
+}
+
+/**
+ * Resets the application state and UI back to the welcome screen.
+ */
+function resetToWelcomeScreen() {
+  appState.htmlElements.welcomePage.removeClass('hide');
+  appState.htmlElements.statusBar.addClass('hide');
+  appState.currentPageIndex = 0;
+  
+  // Hide all product pages
+  appState.htmlElements.productPages.forEach(page => page.addClass('hide'));
+
+  // Reset the brand's primary color
   document.documentElement.style.setProperty('--brand-primary-color', '#96349B');
-}
-
-function switchCase(resultLabel) {
-  switch (resultLabel) {
-    case "dermaCo":
-      prodDetected(0);
-      break;
-    case "TheBodyShop":
-      prodDetected(1);
-      break;
-    case "Minimalist":
-      prodDetected(2);
-      break;
-    case "Brinton":
-      prodDetected(3);
-      break;
-    case "Welcome!":
-      console.log('welcome');
-      resetToWelcome();
-      break;
-    case "COSRX":
-      prodDetected(4);
-      break;
-    case "mCaffine_Toner":
-      prodDetected(5);
-      break;
-    case "Minimalist_Niacinamide":
-      prodDetected(6);
-      break;
-    case "mCaffine_Kojic":
-      prodDetected(7);
-      break;
-    case "Pond's":
-      prodDetected(8);
-      break;
-    case "mCaffine_Moisturizer":
-      prodDetected(9);
-      break;
-    case "Cetaphil":
-      prodDetected(10);
-      break;
-    case "Neutrogena":
-      prodDetected(11);
-      break;
-    case "Loreal_serum":
-      prodDetected(12);
-      break;
-    case "mCaffine_aging":
-      prodDetected(13);
-      break;
-    case "Dr_Sheths":
-      prodDetected(14);
-      break;
-    case "Plum":
-      prodDetected(15);
-      break;
-    case "Dot_Key":
-      prodDetected(16);
-      break;
-    case "Loreal_cream":
-      prodDetected(17);
-      break;
-    default:
-      resetToWelcome();
-      break;
-  }
 }

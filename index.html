@@ -132,36 +132,36 @@
 </body>
 <script>
   function updateHTML(n) {
-    document.documentElement.style.setProperty('--brand-primary-color', database[n].brand_colour || '#96349B');
-    document.querySelector('.steps-in-routine').style.backgroundImage = `url(${database[n].routine_bg_img})`;
+    document.documentElement.style.setProperty('--brand-primary-color', appState.database[n].brand_colour || '#96349B');
+    document.querySelector('.steps-in-routine').style.backgroundImage = `url(${appState.database[n].routine_bg_img})`;
 
-    document.querySelector('#brand_logo').src = (database[n].logo_img);
-    document.querySelector('#prod-name').innerHTML = (database[n].product);
-    document.querySelector('#prod-img').src = (database[n].prod_img);
-    document.querySelector('#skin-type').innerHTML = (database[n].skin_type);
-    document.querySelector('#main-benefit').innerHTML = (database[n].main_benefit);
-    document.querySelector('#treatment-for').innerHTML = (database[n].treatment_for);
-    document.querySelector('#other_benefit_01').innerHTML = (database[n].other_benefit_01);
-    document.querySelector('#other_benefit_02').innerHTML = (database[n].other_benefit_02);
+    document.querySelector('#brand_logo').src = (appState.database[n].logo_img);
+    document.querySelector('#prod-name').innerHTML = (appState.database[n].product);
+    document.querySelector('#prod-img').src = (appState.database[n].prod_img);
+    document.querySelector('#skin-type').innerHTML = (appState.database[n].skin_type);
+    document.querySelector('#main-benefit').innerHTML = (appState.database[n].main_benefit);
+    document.querySelector('#treatment-for').innerHTML = (appState.database[n].treatment_for);
+    document.querySelector('#other_benefit_01').innerHTML = (appState.database[n].other_benefit_01);
+    document.querySelector('#other_benefit_02').innerHTML = (appState.database[n].other_benefit_02);
 
     let steps = document.querySelectorAll('.step')
     for (let i = 0; i < 4; i++) {
       steps[i].classList.remove('current-step');
     }
-    steps[(database[n].step_in_routine) - 1].classList.add('current-step');
+    steps[(appState.database[n].step_in_routine) - 1].classList.add('current-step');
 
     let instructions = document.querySelectorAll('.instruction-text');
-    instructions[0].innerHTML = database[n].how_to_use_01;
-    instructions[1].innerHTML = database[n].how_to_use_02;
-    instructions[2].innerHTML = database[n].how_to_use_03;
+    instructions[0].innerHTML = appState.database[n].how_to_use_01;
+    instructions[1].innerHTML = appState.database[n].how_to_use_02;
+    instructions[2].innerHTML = appState.database[n].how_to_use_03;
 
     let instructionImages = document.querySelectorAll('.instruction-img');
-    instructionImages[0].src = database[n].htu_01_img;
-    instructionImages[1].src = database[n].htu_02_img;
-    instructionImages[2].src = database[n].htu_03_img;
+    instructionImages[0].src = appState.database[n].htu_01_img;
+    instructionImages[1].src = appState.database[n].htu_02_img;
+    instructionImages[2].src = appState.database[n].htu_03_img;
 
-    document.querySelector('#credibility-img').src = (database[n].credibility_img);
-    document.querySelector('.credibility-qr-img').src = (database[n].credibility_qrcode);
+    document.querySelector('#credibility-img').src = (appState.database[n].credibility_img);
+    document.querySelector('.credibility-qr-img').src = (appState.database[n].credibility_qrcode);
 
   }
 </script>
