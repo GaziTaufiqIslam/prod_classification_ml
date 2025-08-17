@@ -2,7 +2,6 @@
 <html lang="">
 
 <head>
-  <!-- I amg gazi -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/style.css">
@@ -40,8 +39,8 @@
             <div class="benefits">
               <h3 id="main-benefit" class="main-benefit"></h3>
               <h2 class="treatment-for"><span id="treatment-for"></span></h2>
-              <hr class="line-horizontal">
             </div>
+            <hr class="line">
             <div class="other-benefits">
               <ul>
                 <li class="benefit">
@@ -101,15 +100,15 @@
         <div class="instructions-body">
           <ul>
             <li class="instruction">
-              <img src="./img/htu_img/derma_co__inst__img_01.png" alt="how to use" class="instruction-img">
+              <img src="" alt="how to use" class="instruction-img">
               <p class="instruction-text"></p>
             </li>
             <li class="instruction">
-              <img src="./img/htu_img/derma_co__inst__img_02.png" alt="how to use" class="instruction-img">
+              <img src="" alt="how to use" class="instruction-img">
               <p class="instruction-text"></p>
             </li>
             <li class="instruction">
-              <img src="./img/htu_img/derma_co__inst__img_03.png" alt="how to use" class="instruction-img">
+              <img src="" alt="how to use" class="instruction-img">
               <p class="instruction-text"></p>
             </li>
           </ul>
@@ -134,6 +133,7 @@
 <script>
   function updateHTML(n) {
     document.documentElement.style.setProperty('--brand-primary-color', database[n].brand_colour || '#96349B');
+    document.querySelector('.steps-in-routine').style.backgroundImage = `url(${database[n].routine_bg_img})`;
 
     document.querySelector('#brand_logo').src = (database[n].logo_img);
     document.querySelector('#prod-name').innerHTML = (database[n].product);
@@ -154,6 +154,11 @@
     instructions[0].innerHTML = database[n].how_to_use_01;
     instructions[1].innerHTML = database[n].how_to_use_02;
     instructions[2].innerHTML = database[n].how_to_use_03;
+
+    let instructionImages = document.querySelectorAll('.instruction-img');
+    instructionImages[0].src = database[n].htu_01_img;
+    instructionImages[1].src = database[n].htu_02_img;
+    instructionImages[2].src = database[n].htu_03_img;
 
     document.querySelector('#credibility-img').src = (database[n].credibility_img);
   }

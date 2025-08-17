@@ -16,6 +16,7 @@ body {
     width: 100%;
     position: absolute;
 }
+
 /* main {
     height: 100vh;
     width: 100%;
@@ -189,7 +190,7 @@ h1 {
 
 }
 
-.line-horizontal::after{
+.line-horizontal::after {
     content: "";
     display: block;
     height: 0;
@@ -302,7 +303,7 @@ h1 {
 
 .instruction {
     flex: 1;
-    padding: 6em 2em;
+    padding: 4em 2em;
     border: var(--brand-primary-color) 4px solid;
     border-radius: 1em;
     position: relative;
@@ -333,7 +334,7 @@ h1 {
 }
 
 .instruction .instruction-text {
-    color: var(--brand-primary-color);
+    color: #69636B;
     font-size: 24px;
     font-weight: 400;
     text-align: center;
