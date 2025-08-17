@@ -13,11 +13,12 @@ const config = {
   databasePath: "./../database_01.json",
   audio: {
     correct: "./../audio/correct.mp3",
-    loading: "./../audio/rising-choir.mp3"
+    loading: "./../audio/rising-choir.mp3",
+    bg: "./../audio/bg-music.mp3"
   },
   classificationDelay: 250, // Time in milliseconds between each classification
   pageDisplayDelay: 8000, // Time in milliseconds each product info page is shown
-  initialPageDelay: 2000 // New: 2-second delay before the first page of the slideshow
+  initialPageDelay: 1000 // New: 2-second delay before the first page of the slideshow
 
 };
 
@@ -81,6 +82,8 @@ function preload() {
   appState.database = loadJSON(config.databasePath);
   appState.audio.detected = loadSound(config.audio.correct);
   appState.audio.loading = loadSound(config.audio.loading);
+  appState.audio.bg = loadSound(config.audio.bg); // NEW: Load the background music
+
 
   // Select all the necessary HTML elements from the DOM
   appState.htmlElements.welcomePage = select('#page-0');
@@ -165,11 +168,11 @@ function classifyVideo() {
  */
 function updateUI(label) {
   // Check if a new product has been detected AND it's not the "Welcome!" state.
-  if (label !== appState.lastDetectedProduct) {
+  if (label !== appState.lastDetectedProduct && productHandlers[label] !== "reset") {
     if (productHandlers[label] !== "reset") {
       // Play the loading audio when a new product is first detected
       appState.audio.loading.play();
-      
+
       // Set the flag and reset the timer when a new product is first detected
       appState.isNewProductDetected = true;
       appState.lastPageDisplayTime = millis();
@@ -201,6 +204,13 @@ function updateUI(label) {
  * @param {number} productIndex - The index for the product data in the database.
  */
 function showProductInfo(productIndex) {
+
+  // NEW: Stop the background music when a product is detected
+  if (appState.audio.bg && appState.audio.bg.isPlaying()) {
+    appState.audio.bg.stop();
+  }
+
+
   // Calls a function in the main HTML file to update the content
   window.updateHTML(productIndex); 
   
@@ -257,6 +267,11 @@ function resetToWelcomeScreen() {
   
   // Hide all product pages
   appState.htmlElements.productPages.forEach(page => page.addClass('hide'));
+
+  // NEW: Play the background music if it's not already playing
+  if (appState.audio.bg && !appState.audio.bg.isPlaying()) {
+    appState.audio.bg.loop();
+  }
 
   // Reset the brand's primary color
   document.documentElement.style.setProperty('--brand-primary-color', '#96349B');
