@@ -13,7 +13,7 @@ const config = {
   databasePath: "./../database_01.json",
   audio: {
     correct: "./../audio/correct.mp3",
-    loading: "./../audio/rising-choir.mp3",
+    loading: "./../audio/rising-choir_2sec.mp3",
     bg: "./../audio/bg-music.mp3"
   },
   classificationDelay: 250, // Time in milliseconds between each classification
@@ -170,6 +170,10 @@ function updateUI(label) {
   // Check if a new product has been detected AND it's not the "Welcome!" state.
   if (label !== appState.lastDetectedProduct && productHandlers[label] !== "reset") {
     if (productHandlers[label] !== "reset") {
+
+      // Set audio volume at 50%
+      appState.audio.loading.setVolume(0.5); 
+      
       // Play the loading audio when a new product is first detected
       appState.audio.loading.play();
 
@@ -238,6 +242,8 @@ function showProductInfo(productIndex) {
 
      // Play the audio only when the first page of a new product is displayed
     if (appState.isNewProductDetected) {
+
+      // Play detected audio
       appState.audio.detected.play();
     }
     
